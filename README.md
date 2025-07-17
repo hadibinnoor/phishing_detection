@@ -40,7 +40,7 @@ A Flask-based web API that detects phishing URLs using a pre-trained machine lea
    ```
 
 4. **Verify the model file exists**:
-   Make sure `../model/phishing_model_random_forest.pkl` exists in the parent model directory.
+   Make sure `model/phishing_model_random_forest.pkl` exists in the model directory.
 
 ## Usage
 
@@ -151,10 +151,7 @@ Run the included test script to verify everything works:
 python test_api.py
 ```
 
-The test script will:
-- Check API health
-- Test 10 sample URLs (mix of legitimate and suspicious)
-- Allow you to test custom URLs interactively
+The test script will check API health and test sample URLs with different risk levels.
 
 ### Example Usage with curl
 
@@ -242,18 +239,18 @@ The API includes comprehensive error handling:
 ## Project Structure
 ```
 backend/
-├── app.py                 # Main Flask application
-├── requirements.txt       # Dependencies
-└── venv/                 # Virtual environment
-
-../model/
-├── phishing_model_random_forest.pkl  # Trained model
-└── train_model.py                    # Training script
+├── app.py                            # Main Flask application
+├── requirements.txt                  # Dependencies
+├── venv/                            # Virtual environment
+└── model/                           # Model directory
+    ├── phishing_model_random_forest.pkl  # Trained model
+    ├── train_model.py                     # Training script
+    └── prediction_function.py            # Model utilities
 ```
 
 ## Troubleshooting
 
-- **Model not loading**: Ensure `../model/phishing_model_random_forest.pkl` exists
+- **Model not loading**: Ensure `model/phishing_model_random_forest.pkl` exists
 - **Port conflicts**: Use `python app.py --port 8080` for different port
 - **Import errors**: Activate virtual environment and install requirements
 

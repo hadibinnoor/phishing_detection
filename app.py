@@ -10,7 +10,7 @@ import argparse
 from urllib.parse import urlparse, parse_qs
 
 # Add the model directory to Python path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'model'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'model'))
 
 # Initialize app
 app = Flask(__name__)
@@ -24,7 +24,7 @@ def load_model():
     """Load the trained model"""
     global model, scaler
     try:
-        model_path = os.path.join(os.path.dirname(__file__), '..', 'model', 'phishing_model_random_forest.pkl')
+        model_path = os.path.join(os.path.dirname(__file__), 'model', 'phishing_model_random_forest.pkl')
         model = joblib.load(model_path)
         print("Model loaded successfully!")
         return True
