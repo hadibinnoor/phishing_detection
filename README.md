@@ -4,12 +4,10 @@ A Flask-based web API that detects phishing URLs using a pre-trained machine lea
 
 ## Features
 
-- 🔍 **Real-time URL Analysis**: Instantly analyze URLs for phishing indicators
-- 🤖 **Machine Learning**: Uses a trained Random Forest model with 48 feature extraction
-- 🌐 **CORS Enabled**: Ready for Chrome extension integration
-- 📊 **Detailed Results**: Provides confidence scores, risk levels, and feature analysis
-- 🛡️ **Error Handling**: Robust error handling and validation
-- 🚀 **Easy Deployment**: Simple Flask app with minimal dependencies
+- 🔍 **Real-time URL Analysis** with 97.9% accuracy
+- 🤖 **Machine Learning** powered by Random Forest classifier
+- 🌐 **CORS Enabled** for Chrome extension integration
+- 📊 **Detailed Results** with confidence scores and risk levels
 
 ## Installation
 
@@ -70,30 +68,13 @@ The API will start on `http://localhost:5001` with debug mode enabled.
 
 **Note**: Port 5000 is often used by macOS AirPlay Receiver. If you need to use a different port, you can use the following methods:
 
-#### Running on Custom Ports
+#### Custom Ports
 
-**Method 1: Modify app.py directly**
-Edit the last line in `app.py`:
-```python
-app.run(debug=True, host='0.0.0.0', port=YOUR_PORT_NUMBER)
-```
-
-**Method 2: Using Flask CLI**
 ```bash
-export FLASK_APP=app.py
-export FLASK_DEBUG=1
-flask run --host=0.0.0.0 --port=5002
-```
+# Using command line arguments
+python app.py --port 8080
 
-**Method 3: Using Python with command line arguments**
-```bash
-# Run on a specific port
-python app.py --port 5002
-
-# Run on a specific host and port
-python app.py --host 127.0.0.1 --port 8080
-
-# Show help for all options
+# Show all options
 python app.py --help
 ```
 
@@ -230,27 +211,25 @@ fetch('http://localhost:5001/predict', {
 
 ## Feature Extraction
 
-The API extracts 48 features from each URL, including:
+The API extracts 48 features from each URL:
+- URL structure (dots, dashes, subdomains, length)
+- Security indicators (HTTPS, IP addresses, suspicious symbols)
+- Content analysis (sensitive words, brand names)
+- Domain and path characteristics
 
-### URL Structure Features (1-25)
-- Number of dots, dashes, subdomains
-- URL and path length
-- Presence of suspicious symbols (@, ~, %)
-- HTTPS usage
-- IP address detection
-- Sensitive word counting
-
-### Advanced Features (26-48)
-- Brand name embedding detection
-- Security indicator analysis
-- Domain structure analysis
-
-## Model Information
+## Model Performance
 
 - **Algorithm**: Random Forest Classifier
-- **Features**: 48 engineered features
-- **Training Data**: Phishing and legitimate URL dataset
+- **Accuracy**: 97.9%
+- **Features**: 48 engineered URL features
 - **Model File**: `phishing_model_random_forest.pkl`
+
+### Classification Metrics
+| Class | Precision | Recall | F1-Score | Support |
+|-------|-----------|---------|----------|---------|
+| Legitimate (0) | 0.97 | 0.98 | 0.98 | 1000 |
+| Phishing (1) | 0.98 | 0.97 | 0.98 | 1000 |
+| **Overall** | **0.98** | **0.98** | **0.98** | **2000** |
 
 ## Error Handling
 
@@ -260,71 +239,24 @@ The API includes comprehensive error handling:
 - **404 Not Found**: Invalid endpoint
 - **500 Internal Server Error**: Model loading issues or prediction failures
 
-## Development
-
-### Project Structure
+## Project Structure
 ```
 backend/
 ├── app.py                 # Main Flask application
-├── requirements.txt       # Python dependencies
-├── test_api.py           # API testing script
-├── README.md             # This file
+├── requirements.txt       # Dependencies
 └── venv/                 # Virtual environment
 
 ../model/
 ├── phishing_model_random_forest.pkl  # Trained model
-├── prediction_function.py            # Model utilities
 └── train_model.py                    # Training script
 ```
 
-### Adding New Features
-
-To add new URL features:
-
-1. Modify the `extract_features()` function in `app.py`
-2. Ensure the feature vector maintains 48 elements
-3. Update the feature names list to match
-4. Retrain the model if necessary
-
 ## Troubleshooting
 
-### Common Issues
-
-1. **Model not loading**:
-   - Verify `../model/phishing_model_random_forest.pkl` exists
-   - Check file permissions
-   - Ensure scikit-learn version compatibility
-
-2. **Connection refused**:
-   - Make sure the Flask app is running
-   - Check if port 5000 is available
-   - Try a different port: `app.run(port=5001)`
-
-3. **Import errors**:
-   - Activate virtual environment
-   - Install requirements: `pip install -r requirements.txt`
-   - Check Python version (3.8+ required)
-
-### Debug Mode
-
-The API runs in debug mode by default. For production, disable it:
-
-```python
-app.run(debug=False, host='0.0.0.0', port=5000)
-```
-
-## License
-
-This project is for educational and research purposes.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+- **Model not loading**: Ensure `../model/phishing_model_random_forest.pkl` exists
+- **Port conflicts**: Use `python app.py --port 8080` for different port
+- **Import errors**: Activate virtual environment and install requirements
 
 ---
 
-🔒 **Security Note**: This API is designed for research and educational purposes. For production use, implement proper authentication, rate limiting, and security measures. 
+🔒 **Note**: This API is for research and educational purposes. 
